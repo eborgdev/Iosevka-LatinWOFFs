@@ -1,0 +1,55 @@
+name: "Manual Custom Build"
+
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Reason for running manually"
+        required: false
+        default: "Manual build"
+
+jobs:
+  build:
+    name: Build IosevkaCustom font
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Your Fork (with private-build-plans.toml)
+        uses: actions/checkout@v4
+
+      - name: Checkout Iosevka Repository
+        uses: actions/checkout@v4
+        with:
+          repository: be5invis/Iosevka
+          ref: LatinWOFF
+          path: iosevka
+
+      - name: Copy Custom Build Plans into Iosevka Directory
+        run: |
+          cp private-build-plans.toml iosevka/private-build-plans.toml
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+          cache-dependency-path: iosevka/package-lock.json
+
+      - name: Install ttfautohint
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ttfautohint
+
+      - name: Build Font IosevkaCustom
+        shell: bash
+        working-directory: iosevka
+        run: |
+          npm install
+          npm run build -- custom::IosevkaCustom
+
+      - name: Upload Font Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: IosevkaCustom-Artifacts
+          path: iosevka/dist/
