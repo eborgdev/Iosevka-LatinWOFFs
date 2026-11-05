@@ -1,0 +1,30 @@
+[buildPlans.IosevkaCustom]
+family = "Iosevka Custom"
+spacing = "term"        # terminal-optimized (narrower arrows/symbols)
+serifs = "sans"
+
+[buildPlans.IosevkaCustom.variants]
+inherits = "ss14"       # e.g. JetBrains Mono shapes
+
+[buildPlans.IosevkaCustom.variants.design]
+zero = 'slashed'
+capital-i = 'serifed'
+
+[buildPlans.IosevkaCustom.widths.Normal]
+shape = 500
+menu = 5
+css = "normal"
+
+# Only include these Unicode ranges
+[buildPlans.IosevkaCustom.subset.include]
+ranges = [
+  [32, 127],       # ASCII
+  [160, 255],      # Latin-1 Supplement (é, ñ, ü, …)
+  [256, 383],      # Latin Extended-A (ą, č, ł, …)
+  [8192, 8303],    # General Punctuation (—, ', ", …)
+  [8722, 8727],    # Minus, plus-minus, …
+  [9472, 9565],    # Box Drawing (┌─┐│└)
+  [9600, 9615],    # Block Elements (█▓▒░)
+  [8592, 8601],    # Arrows (←↑→↓)
+  [9744, 9749],    # Misc Symbols (●○◦)
+]
